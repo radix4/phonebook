@@ -3,26 +3,30 @@ import Person from './components/Person'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Thang Cao' },
-    { name: 'Clever Charlotte' },
+    { name: 'Thang Cao', id: 'Thang Cao' },
+    { name: 'Clever Charlotte', id: 'Clever Charlotte' },
   ])
   const [newName, setNewName] = useState('') //newName is for controlling the form input element
 
   const addPerson = event => {
     event.preventDefault()
-    console.log('button  clicked', event.target)
 
     const personObject = {
       name: newName,
       id: newName,
     }
 
-    setPersons(persons.concat(personObject))
+    const found = persons.some(person => person.name === newName)
+    console.log(found)
+
+    if (found) window.alert(`${newName} is already added to phonebook`)
+    else setPersons(persons.concat(personObject))
+
     setNewName('')
   }
 
   const handleNameChange = event => {
-    console.log(event.target.value)
+    //console.log(event.target.value)
     setNewName(event.target.value)
   }
 
@@ -36,8 +40,6 @@ const App = () => {
           <button type='submit'>add</button>
         </div>
       </form>
-
-      <div>debug: {newName}</div>
 
       <h2>Numbers</h2>
       <div>
