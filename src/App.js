@@ -35,6 +35,20 @@ const PersonForm = props => {
   )
 }
 
+const Persons = props => {
+  if (props.newSearch === '') {
+    return props.persons.map(person => (
+      <Person key={person.name} name={person.name} number={person.number} />
+    ))
+  } else {
+    let personsByName = props.persons.filter(props.filterByName)
+
+    return personsByName.map(person => (
+      <Person key={person.name} name={person.name} number={person.number} />
+    ))
+  }
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Thang Cao', number: '15-531232314' },
@@ -77,20 +91,6 @@ const App = () => {
     return person.name.toLowerCase().indexOf(newSearch) !== -1
   }
 
-  function displayNumbers() {
-    if (newSearch === '') {
-      return persons.map(person => (
-        <Person key={person.name} name={person.name} number={person.number} />
-      ))
-    } else {
-      let personsByName = persons.filter(filterByName)
-
-      return personsByName.map(person => (
-        <Person key={person.name} name={person.name} number={person.number} />
-      ))
-    }
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
@@ -105,7 +105,12 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <div>{displayNumbers()}</div>
+
+      <Persons
+        newSearch={newSearch}
+        persons={persons}
+        filterByName={filterByName}
+      />
     </div>
   )
 }
